@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "raaz",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROOM", "class_name": "Room" },
+      { "name": "INVITE", "class_name": "Invite" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room", "Invite"] }],
+  // Push keys (VAPID_PUBLIC, VAPID_PRIVATE) are secrets: .dev.vars locally,
+  // uploaded by `npm run ship`. Create them once with `npm run keys`.
+  // Privacy: no request logs kept by Cloudflare's observability.
+  "observability": { "enabled": false }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="style.css">
+<style>
+  .viewer { flex: 1; position: relative; background: linear-gradient(180deg, #ff9a3c 0%, #e5307e 52%, #3a1350 100%); }
+  .sun { position: absolute; left: 50%; top: 330px; width: 300px; height: 300px; margin-left: -150px; border-radius: 50%; background: #ffd27a; box-shadow: 0 0 120px 40px rgba(255, 210, 122, .6); }
+  .hills { position: absolute; inset: auto 0 0 0; height: 560px; background: #1f1030; clip-path: polygon(0 40%, 22% 18%, 45% 42%, 68% 10%, 100% 36%, 100% 100%, 0 100%); }
+  .ring { position: absolute; top: 60px; right: 48px; width: 96px; height: 96px; transform: rotate(-90deg); }
+  .pill { position: absolute; top: 76px; left: 48px; background: rgba(0, 0, 0, .5); color: #fff; border-radius: 40px; padding: 10px 26px; font-size: 28px; }
+  .caption { position: absolute; left: 0; right: 0; bottom: 300px; background: rgba(0, 0, 0, .55); color: #fff; text-align: center; font-size: 40px; font-weight: 500; padding: 22px; }
+  .float { position: absolute; left: 64px; top: 640px; transform: rotate(-5deg); z-index: 5; }
+</style></head><body>
+<div class="canvas slide">
+  <div class="brand"><svg viewBox="0 0 64 64"><defs><clipPath id="c2"><circle cx="24" cy="32" r="16"/></clipPath></defs><circle cx="24" cy="32" r="16" fill="#e5307e"/><circle cx="40" cy="32" r="16" fill="#a996c4"/><circle cx="40" cy="32" r="16" fill="#ffb627" clip-path="url(#c2)"/><circle cx="32" cy="28.6" r="2.9" fill="#1f1030"/><path d="M30.7 30.2 L29.7 38 H34.3 L33.3 30.2 Z" fill="#1f1030"/></svg>raaz</div>
+  <h1>Snaps that don't stay.</h1>
+  <p class="sub">Open once, then they're gone from both phones. Nothing lands in your gallery.</p>
+  <div class="snaptile float"><i>✦</i><span><b>Tap to open</b><small>View once · 5s</small></span></div>
+  <div class="phone"><div class="screen">
+    <div class="viewer">
+      <div class="sun"></div>
+      <div class="hills"></div>
+      <span class="pill">View once</span>
+      <svg class="ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="rgba(0,0,0,.5)" stroke="rgba(255,255,255,.25)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#e5307e" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="38"/></svg>
+      <div class="caption">guess where 🌄</div>
+    </div>
+  </div></div>
+</div>
+</body></html>

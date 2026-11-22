@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/baloo-2";
+@import "@fontsource/mukta/400.css";
+@import "@fontsource/mukta/500.css";
+@import "@fontsource/mukta/600.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: "Baloo 2 Variable", "Mukta", sans-serif;
+    --font-sans: "Mukta", ui-sans-serif, system-ui, sans-serif;
+    --color-rani: var(--rani);
+    --color-rani-foreground: var(--rani-foreground);
+    --color-marigold: var(--primary);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* raaz palette: an Indian festive night.
+   Plum night + aubergine surfaces, marigold (genda) for action, rani pink for snaps and love. */
+:root {
+    --background: #1f1030;
+    --foreground: #fbf1e4;
+    --card: #2c1a42;
+    --card-foreground: #fbf1e4;
+    --popover: #2c1a42;
+    --popover-foreground: #fbf1e4;
+    --primary: #ffb627;
+    --primary-foreground: #2a1500;
+    --secondary: #3a2556;
+    --secondary-foreground: #fbf1e4;
+    --muted: #2c1a42;
+    --muted-foreground: #a996c4;
+    --accent: #3a2556;
+    --accent-foreground: #fbf1e4;
+    --destructive: #ff6b6b;
+    --border: #3e2a5a;
+    --input: #4a3468;
+    --ring: #ffb627;
+    --rani: #e5307e;
+    --rani-foreground: #fff5f9;
+    --chart-1: #ffb627;
+    --chart-2: #e5307e;
+    --chart-3: #a996c4;
+    --chart-4: #3a2556;
+    --chart-5: #fbf1e4;
+    --radius: 1rem;
+    --sidebar: #2c1a42;
+    --sidebar-foreground: #fbf1e4;
+    --sidebar-primary: #ffb627;
+    --sidebar-primary-foreground: #2a1500;
+    --sidebar-accent: #3a2556;
+    --sidebar-accent-foreground: #fbf1e4;
+    --sidebar-border: #3e2a5a;
+    --sidebar-ring: #ffb627;
+    color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top), 0.75rem);
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+  }
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+@keyframes raaz-float {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(-75vh) scale(1.3); opacity: 0; }
+}
+
+@keyframes raaz-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
