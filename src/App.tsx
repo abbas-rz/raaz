@@ -3,6 +3,8 @@ import { Mark } from "@/components/brand"
 import { Toaster } from "@/components/ui/sonner"
 import { boot, lock, nudgeConnection, prune, useApp } from "@/lib/engine"
 import { lockHeld } from "@/lib/guard"
+import { savedLook } from "@/lib/look"
+import { ChooseLook } from "@/screens/choose-look"
 import { Chat } from "@/screens/chat/chat"
 import { Lock } from "@/screens/lock"
 import { Pair } from "@/screens/pair"
@@ -33,19 +35,20 @@ export default function App() {
     }
   }, [])
 
-  useEffect(() => {
-    document.title = phase === "locked" && useApp.getState().prefs.lockStyle === "calc" ? "Calculator" : "raaz"
-  }, [phase])
-
   return (
     <div className="mx-auto h-dvh max-w-md overflow-hidden sm:my-0 sm:border-x">
-      {phase === "boot" && (
-        <div className="flex h-full items-center justify-center">
-          <Mark className="size-16 animate-pulse" />
-        </div>
-      )}
+      {phase === "boot" &&
+        (savedLook() === "calc" ? (
+          // Disguised: the first frame is already a plain calculator-coloured screen.
+          <div className="fixed inset-0 bg-[#111113]" />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <Mark className="size-16 animate-pulse" />
+          </div>
+        ))}
       {phase === "welcome" && <Welcome />}
       {phase === "setpin" && <SetPin />}
+      {phase === "look" && <ChooseLook />}
       {phase === "pair" && <Pair />}
       {phase === "locked" && <Lock />}
       {phase === "chat" && <Chat />}

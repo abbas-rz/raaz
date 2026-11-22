@@ -12,13 +12,14 @@ import {
   type RoomSecrets,
 } from "@/core/crypto"
 import { MAX_BODY, type C2S, type Payload, type S2C } from "@/core/protocol"
+import { applyLook } from "./look"
 import { clearRoomData, db, DEFAULT_PREFS, getMeta, setMeta, wipeAll, type Prefs, type RoomRef } from "./db"
 
 // ---------------------------------------------------------------------------
 // Types the UI renders
 // ---------------------------------------------------------------------------
 
-export type Phase = "boot" | "welcome" | "setpin" | "pair" | "locked" | "chat"
+export type Phase = "boot" | "welcome" | "setpin" | "look" | "pair" | "locked" | "chat"
 
 export interface ChatMsg {
   id: string
@@ -107,6 +108,7 @@ export async function boot() {
   const prefs = { ...DEFAULT_PREFS, ...((await getMeta("prefs")) ?? {}) }
   room = (await getMeta("room")) ?? null
   const vault = await getMeta("vault")
+  applyLook(vault && prefs.lockStyle === "calc" ? "calc" : "raaz")
   set({ prefs, phase: vault ? "locked" : "welcome" })
   if (room) connect()
 }
@@ -119,6 +121,13 @@ export async function createPin(pin: string) {
   const { record, key } = await createVault(pin)
   await setMeta("vault", record)
   vaultKey = key
+  set({ phase: "look" })
+}
+
+// Setup step: how raaz shows up on the phone. The calculator disguise also
+// switches notifications to everyday-looking decoys.
+export async function chooseLook(look: "raaz" | "calc") {
+  await setPrefs(look === "calc" ? { lockStyle: "calc", notify: "decoy" } : { lockStyle: "pin", notify: "discreet" })
   set({ phase: "pair" })
 }
 
@@ -560,6 +569,7 @@ export async function setPrefs(p: Partial<Prefs>) {
   const prefs = { ...get().prefs, ...p }
   await setMeta("prefs", prefs)
   set({ prefs })
+  if (p.lockStyle) applyLook(p.lockStyle === "calc" ? "calc" : "raaz")
 }
 
 function urlB64(s: string) {

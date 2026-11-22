@@ -166,13 +166,13 @@ export function Settings({ open, onOpenChange }: { open: boolean; onOpenChange: 
                   value={prefs.lockStyle}
                   options={[
                     ["pin", "Passcode"],
-                    ["calc", "Calculator"],
+                    ["calc", "Calculator disguise"],
                   ]}
                   onChange={(lockStyle) => void setPrefs({ lockStyle })}
                 />
                 <FieldDescription>
                   {prefs.lockStyle === "calc"
-                    ? "raaz opens as a working calculator. Type your passcode, then press = to get in."
+                    ? "raaz opens as a working calculator named “Calculator”. Type your passcode, then = to get in. Hold C for 3 seconds if you forget it. The home-screen icon changes the next time you add raaz to your home screen."
                     : "raaz locks every time you leave it."}
                 </FieldDescription>
               </Field>

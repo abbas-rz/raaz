@@ -3,7 +3,7 @@
 // - shows a notification when the other phone sends something
 // Pushes carry no data. Nothing about the message ever reaches this file.
 
-const CACHE = "raaz-shell-v1"
+const CACHE = "raaz-shell-v2"
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(["/", "/manifest.webmanifest", "/icon-192.png"])))
@@ -102,8 +102,8 @@ self.addEventListener("push", (e) => {
         body,
         tag: "raaz",
         renotify: true,
-        icon: "/icon-192.png",
-        badge: "/icon-192.png",
+        icon: prefs.lockStyle === "calc" ? "/calc-192.png" : "/icon-192.png",
+        badge: prefs.lockStyle === "calc" ? "/calc-192.png" : "/icon-192.png",
         silent: false,
       })
     })(),

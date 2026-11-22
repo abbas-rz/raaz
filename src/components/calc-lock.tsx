@@ -47,7 +47,11 @@ function evaluate(tokens: string[]): string {
   return Number.isFinite(acc) ? String(+acc.toPrecision(12)) : "Error"
 }
 
-export function CalcLock({ onCode }: { onCode: (pin: string) => Promise<boolean> }) {
+// Holding C for 3 seconds is the hidden way to "Forgot passcode?".
+const HOLD_MS = 3000
+
+export function CalcLock({ onCode, onHoldClear }: { onCode: (pin: string) => Promise<boolean>; onHoldClear?: () => void }) {
+  const hold = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   // Kept in a ref so quick taps between renders are never lost.
   const st = useRef({ tokens: [] as string[], cur: "", digits: "" })
   const [shown, setShown] = useState("0")
@@ -81,10 +85,12 @@ export function CalcLock({ onCode }: { onCode: (pin: string) => Promise<boolean>
     setShown(s.cur)
   }
 
+  // Deliberately plain greys, no raaz colours or fonts: this has to pass as a
+  // stock calculator to anyone glancing at the phone.
   return (
-    <div className="flex size-full max-w-sm flex-col gap-4 p-5 pb-safe">
+    <div className="flex size-full max-w-sm flex-col gap-4 p-5 pt-safe pb-safe font-[system-ui,sans-serif] text-[#e8eaed]">
       <div className="flex flex-1 items-end justify-end overflow-hidden px-2">
-        <output className="font-sans text-6xl font-normal break-all text-right tabular-nums">{shown}</output>
+        <output className="text-6xl font-light break-all text-right tabular-nums">{shown}</output>
       </div>
       <div className="grid grid-cols-4 gap-3 no-select">
         {KEYS.map(([k, kind]) => (
@@ -92,11 +98,19 @@ export function CalcLock({ onCode }: { onCode: (pin: string) => Promise<boolean>
             key={k}
             type="button"
             onClick={() => void press(k)}
+            onPointerDown={() => {
+              if (k !== "C" || !onHoldClear) return
+              clearTimeout(hold.current)
+              hold.current = setTimeout(onHoldClear, HOLD_MS)
+            }}
+            onPointerUp={() => clearTimeout(hold.current)}
+            onPointerLeave={() => clearTimeout(hold.current)}
+            onContextMenu={(e) => e.preventDefault()}
             className={cn(
-              "h-16 rounded-2xl bg-secondary/70 text-2xl font-medium transition-transform outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-95",
-              kind === "fn" && "bg-muted text-muted-foreground",
-              kind === "op" && "bg-accent text-primary",
-              kind === "eq" && "row-span-2 h-auto bg-primary text-primary-foreground",
+              "h-16 rounded-full bg-[#303134] text-2xl font-normal transition-[transform,background-color] outline-none focus-visible:ring-2 focus-visible:ring-[#8ab4f8] active:scale-95 active:bg-[#3c4043]",
+              kind === "fn" && "bg-[#5f6368] text-[#e8eaed]",
+              kind === "op" && "bg-[#3c4043] text-[#8ab4f8]",
+              kind === "eq" && "row-span-2 h-auto rounded-[2rem] bg-[#f29900] text-[#202124]",
               kind === "zero" && "col-span-2",
             )}
           >

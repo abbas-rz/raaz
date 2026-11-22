@@ -28,27 +28,27 @@ export function Lock() {
     return ok
   }
 
-  if (style === "calc") {
-    return (
-      <main className="flex h-full justify-center pt-safe">
-        <CalcLock onCode={attempt} />
-      </main>
-    )
-  }
-
   return (
     <main className="flex h-full flex-col items-center justify-center gap-10 px-6 pt-safe pb-safe">
-      <Mark className="size-14" title="raaz" />
-      <PinPad
-        title="Welcome back"
-        hint={fails >= 3 ? "Take your time. Wrong guesses add a short wait." : "Enter your passcode"}
-        onComplete={attempt}
-        footer={
-          <Button variant="link" className="text-muted-foreground" onClick={() => setForgot(true)}>
-            Forgot passcode?
-          </Button>
-        }
-      />
+      {style === "calc" ? (
+        <div className="fixed inset-0 z-10 flex justify-center bg-[#111113]">
+          <CalcLock onCode={attempt} onHoldClear={() => setForgot(true)} />
+        </div>
+      ) : (
+        <>
+          <Mark className="size-14" title="raaz" />
+          <PinPad
+            title="Welcome back"
+            hint={fails >= 3 ? "Take your time. Wrong guesses add a short wait." : "Enter your passcode"}
+            onComplete={attempt}
+            footer={
+              <Button variant="link" className="text-muted-foreground" onClick={() => setForgot(true)}>
+                Forgot passcode?
+              </Button>
+            }
+          />
+        </>
+      )}
 
       <AlertDialog open={forgot} onOpenChange={setForgot}>
         <AlertDialogContent>

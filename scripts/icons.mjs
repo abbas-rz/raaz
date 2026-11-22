@@ -8,6 +8,11 @@ const jobs = [
   ["public/icon.svg", "public/icon-512.png", 512],
   ["public/icon-maskable.svg", "public/icon-maskable-512.png", 512],
   ["public/icon-maskable.svg", "public/apple-touch-icon.png", 180],
+  // Calculator disguise
+  ["public/calc-icon.svg", "public/calc-192.png", 192],
+  ["public/calc-icon.svg", "public/calc-512.png", 512],
+  ["public/calc-maskable.svg", "public/calc-maskable-512.png", 512],
+  ["public/calc-maskable.svg", "public/calc-apple-touch-icon.png", 180],
 ]
 for (const [src, out, size] of jobs) {
   const png = new Resvg(readFileSync(src), { fitTo: { mode: "width", value: size } }).render().asPng()
